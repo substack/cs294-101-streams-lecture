@@ -292,7 +292,23 @@ use arbitrary objects.
 ---
 # demo: parsing really big files
 
-JSONStream
+given an `alameda.json.gz` geojson file,
+we can use streams to parse the entire file without
+tempfiles and without loading the whole thing into memory
+
+---
+
+``` js
+var zlib = require('zlib');
+var parse = require('JSONStream').parse;
+var stdout = require('stdout')();
+
+process.stdin
+    .pipe(zlib.createGunzip())
+    .pipe(parse(['features',true,'geometry','coordinates']))
+    .pipe(stdout)
+;
+```
 
 ---
 # web application tooling
